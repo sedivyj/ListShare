@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# Bundled client-side code
+bundle.js
+bundle.js.map 

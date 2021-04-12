@@ -4,6 +4,20 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "devServer": "nodemon ./server/server.js",
+    "server": "run-s cleanServer buildServer runServer",
+
+    "runServer": "node ./dist/server.js",
+    "buildServer": "babel ./server --out-dir=./dist",
+    "cleanServer": "rm -rf ./dist",
+
+    "devClient": "run-s cleanClient devBundle",
+    "client": "run-s cleanClient bundle",
+
+    "devBundle": "esbuild client/app.jsx --target=es6 --watch --bundle --sourcemap --define:process.env.NODE_ENV=\\\"development\\\" --outfile=public/bundle.js",
+    "bundle": "esbuild client/app.jsx --target=es6 --bundle --minify --define:process.env.NODE_ENV=\\\"production\\\" --outfile=public/bundle.js",
+    "cleanClient": "rm ./public/bundle.*",
+
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -12,14 +26,40 @@
   },
   "author": "Joseph Sedivy",
   "license": "MIT",
+  "nodemonConfig": {
+    "execMap": {
+      "js": "babel-node"
+    },
+    "watch": [
+      "server/**/*"
+    ],
+    "ignore": [
+      "server/data/*.json"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/sedivyj/ListShare/issues"
   },
   "homepage": "https://github.com/sedivyj/ListShare#readme",
-  "dependencies": {
-    "express": "^4.17.1",
+  "devDependencies": {
+    "esbuild": "^0.11.1",
+    "eslint": "^7.24.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-react": "^7.23.2",
     "nodemon": "^2.0.7",
+    "npm-run-all": "^4.1.5",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.13.10",
+    "@babel/core": "^7.13.10",
+    "@babel/node": "^7.13.10",
+    "@babel/plugin-transform-async-to-generator": "^7.13.0",
+    "@babel/preset-env": "^7.13.10",
+    "express": "^4.17.1"
   }
 }
