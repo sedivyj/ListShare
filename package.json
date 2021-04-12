@@ -1,0 +1,19 @@
+{
+  "name": "listshare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sedivyj/ListShare.git"
+  },
+  "author": "Joseph Sedivy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sedivyj/ListShare/issues"
+  },
+  "homepage": "https://github.com/sedivyj/ListShare#readme"
+}
