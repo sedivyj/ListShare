@@ -6,18 +6,14 @@
   "scripts": {
     "devServer": "nodemon ./server/server.js",
     "server": "run-s cleanServer buildServer runServer",
-
     "runServer": "node ./dist/server.js",
     "buildServer": "babel ./server --out-dir=./dist",
     "cleanServer": "rm -rf ./dist",
-
     "devClient": "run-s cleanClient devBundle",
     "client": "run-s cleanClient bundle",
-
     "devBundle": "esbuild client/app.jsx --target=es6 --watch --bundle --sourcemap --define:process.env.NODE_ENV=\\\"development\\\" --outfile=public/bundle.js",
     "bundle": "esbuild client/app.jsx --target=es6 --bundle --minify --define:process.env.NODE_ENV=\\\"production\\\" --outfile=public/bundle.js",
-    "cleanClient": "rm ./public/bundle.*",
-
+    "cleanClient": "rm -f ./public/bundle.*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -60,6 +56,9 @@
     "@babel/node": "^7.13.10",
     "@babel/plugin-transform-async-to-generator": "^7.13.0",
     "@babel/preset-env": "^7.13.10",
-    "express": "^4.17.1"
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.6.6",
+    "uuid": "^8.3.2"
   }
 }
