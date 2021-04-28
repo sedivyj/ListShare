@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
 const ReturnList = (props) => {
-
   const setUUID = (event) => {
     if (props.setUUID) {
       // console.log(event.target.value)

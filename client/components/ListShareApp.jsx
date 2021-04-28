@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import HomeView from './home/HomeView.jsx'
 import ListView from './list/ListView.jsx'
 
@@ -7,6 +7,10 @@ function ListShareApp () {
   const [uuid, setUUID] = useState('')
   const [password, setPassword] = useState('')
   const [listData, setListData] = useState(null)
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <div className='container'>
@@ -22,6 +26,8 @@ function ListShareApp () {
       {(listData &&
         <ListView
           uuid={uuid}
+          listData={listData}
+          setListData={setListData}
         />
       )}
     </div>

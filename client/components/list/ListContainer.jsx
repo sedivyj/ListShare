@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-const ListContainer = () => {
+import ListItem from './ListItem.jsx'
+
+function ListContainer (props) {
   return (
-    <div>
-      <h2>Grid is here</h2>
+    <div >
+      <ul className='list-group'>
+        {props.listData.map((listItem, index) => {
+          return (<ListItem key={index} data={listItem}/>)
+        })}
+      </ul>
     </div>
   )
+}
+
+ListContainer.propTypes = {
+  listData: PropTypes.array
 }
 
 export default ListContainer
