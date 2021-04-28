@@ -8,11 +8,22 @@ import ReturnList from './ReturnList.jsx'
  * Gives option to create a list or return to a list
  * @returns React HomeView
  */
-const HomeView = () => {
-  const [uuid, setUUID] = useState('')
-  const [password, setPassword] = useState('')
+const HomeView = (props) => {
   const [isStarting, setIsStarting] = useState(false)
   const [isReturning, setIsReturning] = useState(false)
+
+  // Effect for returning to Create List View
+  // Clears inputs for the view
+  useEffect(() => {
+    props.setPassword('')
+  }, [isStarting])
+
+  // Effect for returning to Return List View
+  // Clears inputs for the View
+  useEffect(() => {
+    props.setUUID('')
+    props.setPassword('')
+  }, [isReturning])
 
   const fetchUUID = useCallback(async () => {
     fetch('/home/getID', {
@@ -22,7 +33,7 @@ const HomeView = () => {
       }
     })
       .then((response) => response.json())
-      .then((data) => setUUID(data.uuid))
+      .then((data) => props.setUUID(data.uuid))
       .catch((err) => {
         console.log(err)
       })
@@ -51,11 +62,20 @@ const HomeView = () => {
       <div>
         {(isStarting &&
           <NewList
-            uuid={uuid}
+            uuid={props.uuid}
+            password={props.password}
+            setPassword={props.setPassword}
+            setListData={props.setListData}
         />
         )}
         {(isReturning &&
-          <ReturnList />
+          <ReturnList
+            uuid={props.uuid}
+            password={props.password}
+            setUUID={props.setUUID}
+            setPassword={props.setPassword}
+            setListData={props.setListData}
+          />
         )}
     </div>
     </div>
