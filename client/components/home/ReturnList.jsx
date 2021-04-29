@@ -35,7 +35,7 @@ const ReturnList = (props) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data)
-        if (data.listData && props.setListData) { props.setListData(data.listData) }
+        if (data && props.setListData) { props.setListData(data) }
       })
       .catch((err) => {
         console.log(err)

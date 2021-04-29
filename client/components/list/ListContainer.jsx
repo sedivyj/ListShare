@@ -10,27 +10,41 @@ function ListContainer (props) {
     const newItem = { data: 'New Item' }
 
     // Add to DB and when successful update UI
-
-    props.setListData([...props.listData, newItem])
+    props.updateListItems([...props.listItemData, newItem])
   }
 
   const deleteListItem = (listID) => {
-    // Remove from DB and when successful update UI
-    const listDataCopy = [...props.listData]
-    listDataCopy.splice(listID, 1)
+    // Ask if user wants to delete this
+    const wantsDelete = window.confirm(`Are you sure you want to delete ${props.listItemData[listID]?.data }?`)
 
-    props.setListData(listDataCopy)
+    if (wantsDelete) {
+      // Remove from DB and when successful update UI
+      const listDataCopy = [...props.listItemData]
+      listDataCopy.splice(listID, 1)
+
+      props.updateListItems(listDataCopy)
+    }
+  }
+
+  const editListItem = (listID, val) => {
+    // Copy list
+    const listDataCopy = [...props.listItemData]
+    // Update the value
+    listDataCopy[listID] = val
+
+    props.updateListItems([...listDataCopy])
   }
 
   return (
     <div>
-      <button className='btn' onClick={addListItem}>Add Item</button>
-      <ul className='list-group'>
-        {props.listData.map((listItem, index) => {
+      <button className='btn btn-primary m-2' onClick={addListItem}>Add Item</button>
+      <ul className='list-group flex-fill'>
+        {props.listItemData.map((listItem, index) => {
           return (<ListItem
             key={index} listID={index}
+            data={listItem.data}
             deleteListItem={deleteListItem}
-            data={listItem}/>)
+            editListItem={editListItem}/>)
         })}
       </ul>
     </div>
@@ -38,7 +52,8 @@ function ListContainer (props) {
 }
 
 ListContainer.propTypes = {
-  listData: PropTypes.array
+  listItemData: PropTypes.array,
+  updateListItems: PropTypes.func
 }
 
 export default ListContainer

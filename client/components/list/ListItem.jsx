@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 function ListItem (props) {
@@ -10,16 +10,27 @@ function ListItem (props) {
     console.log('DELETE')
   }
 
+  const editItem = (event) => {
+    event.preventDefault()
+    const updatedListItem = { data: event.target.value }
+
+    props.editListItem(props.listID, updatedListItem)
+  }
+
   return (
     <li className='list-group-item'>
-      <p>List Item</p>
-      <img src="./trash.svg" onClick={deleteItem}></img>
+      <input type='text' className='list-input'
+        value={props.data}
+        onChange={editItem}
+      />
+      <img className='float-right' src="./trash.svg" onClick={deleteItem}></img>
     </li>
   )
 }
 
-// ListItem.propTypes = {
-//   data: PropTypes.string
-// }
+ListItem.propTypes = {
+  data: PropTypes.string,
+  listID: PropTypes.number
+}
 
 export default ListItem

@@ -14,8 +14,12 @@ router.put('/addListItem', (req, res) => {
   }
 })
 
+router.post('/updateName', (res, req) => {
+  
+})
+
 // Update an item in a list
-router.post('/updateListItem', (req, res) => {
+router.post('/updateList', (req, res) => {
   const body = req.body
   if (body) {
     res.status(200).json({ message: 'ITEM ADDED'})
@@ -25,7 +29,7 @@ router.post('/updateListItem', (req, res) => {
 })
 
 // Remove an item in a list
-router.delete('/removeListItem', (req, res) => {
+router.delete('/deleteList', (req, res) => {
   const body = req.body
   if (body) {
     res.status(200).json({ message: 'ITEM ADDED'})
