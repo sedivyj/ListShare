@@ -89,9 +89,11 @@ function ListView (props) {
           />
           <p>UUID: {props.listData.uuid}</p>
         </div>
-        <div className='col float-right'>
-          <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
-          <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
+        <div className='col'>
+          <div className='float-right'>
+            <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
+            <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
+          </div>
         </div>
       </div>
       <div className='row'>
