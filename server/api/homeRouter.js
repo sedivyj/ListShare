@@ -59,8 +59,7 @@ router.put('/createList', (req, res) => {
       console.log('item inserted')
      })
 
-     const listData = []
-     return res.status(200).json({listData: []})
+     return res.status(200).json(newList)
     } else {
       res.status(400).json({ message: 'Invalid UUID' })
     }

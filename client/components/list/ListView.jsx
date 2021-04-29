@@ -49,7 +49,33 @@ function ListView (props) {
 
   // Deletes entire list from DB
   const deleteListFromDB = () => {
-    console.log('DELETE')
+    const warnOne = window.confirm('Are you sure you want to delete this list?')
+    if (warnOne) {
+      const warnLast = window.confirm('Are you REALLY sure you want to delete this list?\nYou cannot undo this!')
+      if (warnLast) {
+        const postData = {
+          uuid: props.listData.uuid,
+          password: props.password
+        }
+        fetch('/list/deleteList', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(postData)
+        })
+          .then((response) => response.json())
+          .then((data) => { 
+            window.alert(data.message)
+            // Return to a null state for listData
+            props.setListData(null)
+          })
+          .catch((error) => {
+            window.alert(error.message)
+          })
+        console.log('DELETE')
+      }
+    }
   }
 
   return (

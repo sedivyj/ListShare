@@ -1,14 +1,13 @@
 import React, {useState, useEffect, useCallback } from 'react'
 
-
 /*
 TODO:
   Issue with uuid and password not being posted correctly
   Fix onChange for text input for password
 */
 function NewList (props) {
+  // Post a UUID and Password to server
   const postUUID = async () => {
-    // Post a UUID and Password to server
     const postData = {
       uuid: props.uuid,
       password: props.password
@@ -22,7 +21,10 @@ function NewList (props) {
       body: JSON.stringify(postData)
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data)
+        props.setListData(data)
+      })
       .catch((err) => {
         console.log(err)
       })

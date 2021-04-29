@@ -69,7 +69,26 @@ const body = req.body
 router.delete('/deleteList', (req, res) => {
   const body = req.body
   if (body) {
-    res.status(200).json({ message: 'ITEM ADDED'})
+    // Handle getting data from body
+    const uuid = body.uuid
+    const hashPass = createHash('sha256').update(body.password).digest('hex')
+    const listItems = body.listItems
+
+    const query = { 
+      uuid: uuid,
+      password: hashPass
+    }
+
+    const db = getDb()
+    db.collection('list-data').deleteOne(query)
+    .then((data) => {
+      console.log(data)
+      return res.status(200).json({ message: 'Update successful!'})
+    })
+    .catch((error) => {
+      console.log(error)
+      return res.status(500).json({ message: 'Something went wrong'})
+    })
   } else {
     res.status(400).json({ message: 'Bad Body' })
   }
