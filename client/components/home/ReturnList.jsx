@@ -46,8 +46,8 @@ const ReturnList = (props) => {
     <div>
       <h2>Return List</h2>
       <input value={props.uuid} onChange={setUUID} type='text' placeholder='Unique ID'/>
-      <input value={props.password} onChange={setPassword} type='text' placeholder='Password'/>
-      <button onClick={getList}>Get My List!</button>
+      <input className='ml-2' value={props.password} onChange={setPassword} type='text' placeholder='Password'/>
+      <button className='btn btn-success ml-2' onClick={getList}>Get My List!</button>
     </div>
   )
 }

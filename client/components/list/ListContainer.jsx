@@ -36,7 +36,7 @@ function ListContainer (props) {
   }
 
   return (
-    <div>
+    <div className='col'>
       <button className='btn btn-primary m-2' onClick={addListItem}>Add Item</button>
       <ul className='list-group flex-fill'>
         {props.listItemData.map((listItem, index) => {

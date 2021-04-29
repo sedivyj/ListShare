@@ -81,17 +81,25 @@ function ListView (props) {
   return (
     <div>
       <h2>Edit List!</h2>
-      <input type='text' className='name-input'
-        value={props.listData.name}
-        onChange={updateListName}
-      />
-      <p>UUID: {props.listData.uuid}</p>
-      <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
-      <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
-      <ListContainer
-        listItemData={props.listData.listItems}
-        updateListItems={updateListItems}
-        />
+      <div className='row'>
+        <div className='col float-left'>
+          <input type='text' className='name-input'
+            value={props.listData.name}
+            onChange={updateListName}
+          />
+          <p>UUID: {props.listData.uuid}</p>
+        </div>
+        <div className='col float-right'>
+          <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
+          <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
+        </div>
+      </div>
+      <div className='row'>
+        <ListContainer
+          listItemData={props.listData.listItems}
+          updateListItems={updateListItems}
+          />
+      </div>
     </div>
   )
 }

@@ -43,7 +43,7 @@ function NewList (props) {
       <h2>{props.uuid}</h2>
       <p>Save this Identifier for later!</p>
       <input value={props.password} onChange={setPassword} className='mr-2' type='text' placeholder='Password'/>
-      <button className='btn btn-primary ml-2' onClick={postUUID}>Start List!</button>
+      <button className='btn btn-success ml-2' onClick={postUUID}>Start List!</button>
     </div>
   )
 }
