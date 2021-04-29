@@ -17,13 +17,15 @@ const ReturnList = (props) => {
 
   // Submit inputted creds and see if a list returns
   const getList = () => {
+    // If password is not set, then we just want to view the list
+    const url = (props.password) ? '/home/returnToEditList' : '/home/returnToViewList'
     // Post a UUID and Password to server
     const postData = {
       uuid: props.uuid,
       password: props.password
     }
     console.log(JSON.stringify(postData))
-    fetch('/home/returnToList', {
+    fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

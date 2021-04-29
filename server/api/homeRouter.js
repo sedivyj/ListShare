@@ -44,6 +44,7 @@ router.put('/createList', (req, res) => {
      const newList = {
        uuid: uuid,
        password: hashPass,
+       name: 'New List',
        listData: []
      }
 
@@ -67,17 +68,20 @@ router.put('/createList', (req, res) => {
   }
 })
 
-// TODO: return a list
-// TODO: handle case where password matches as well
-// Return a potential list
-router.post('/returnToList', async (req, res) => {
+// Router for when user doesn't provide a password and just wants to view a list
+router.post('/returnToViewList', async (req, res) => {
   const body = req.body
   if (body) {
     // Get values from body (password should be hashed)
     const uuid = body.uuid
-    const hashPass = createHash('sha256').update(body.password).digest('hex')
+    // const hashPass = createHash('sha256').update(body.password).digest('hex')
 
-    const query = { uuid: uuid }
+    const query = { 
+      uuid: uuid
+    }
+    // Determines what does/doesn't get returned from query
+    // We don't want to have the password returned
+    const projection = { password: 0 }
     console.log(query)
 
     try {
@@ -85,11 +89,48 @@ router.post('/returnToList', async (req, res) => {
       // Get DB connection object
       const db = getDb()
       // Find One document that matches the uuid
-      const listDetails = await db.collection('list-data').findOne(query)
+      const listDataResult = await db.collection('list-data').findOne(query, projection)
       // Check if defined -> null if nothing found
-      if (listDetails) {
-        console.log(listDetails)
-        res.status(200).json({ listData: listDetails.listData})
+      if (listDataResult) {
+        console.log(listDataResult)
+        res.status(200).json(listDataResult)
+      } else {
+        res.status(400).json({message: 'List with that uuid and/or password was not found!'})
+      }
+    } catch(err) {
+      res.status(400).json({message: 'Unexpected error fetching list'})
+    }
+  } else {
+    res.status(400).json({message: 'Bad body!'})
+  }
+})
+
+// TODO: return a list
+// TODO: handle case where password matches as well
+// Return a potential list based on uuid and password
+router.post('/returnToEditList', async (req, res) => {
+  const body = req.body
+  if (body) {
+    // Get values from body (password should be hashed)
+    const uuid = body.uuid
+    const hashPass = createHash('sha256').update(body.password).digest('hex')
+
+    const query = { 
+      uuid: uuid,
+      password: hashPass
+    }
+    console.log(query)
+
+    try {
+      // Search Mongo for a document that matches the uuid and hashed password
+      // Get DB connection object
+      const db = getDb()
+      // Find One document that matches the uuid
+      const listDataResult = await db.collection('list-data').findOne(query)
+      // Check if defined -> null if nothing found
+      if (listDataResult) {
+        console.log(listDataResult)
+        res.status(200).json(listDataResult)
       } else {
         res.status(400).json({message: 'List with that uuid not found!'})
       }
