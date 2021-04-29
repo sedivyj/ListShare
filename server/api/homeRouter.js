@@ -44,7 +44,7 @@ router.put('/createList', (req, res) => {
      const newList = {
        uuid: uuid,
        password: hashPass,
-       name: 'New List',
+       name: 'Click me to change the list name!',
        listItems: []
      }
 
