@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const ReturnList = (props) => {
   const setUUID = (event) => {
@@ -16,7 +17,7 @@ const ReturnList = (props) => {
   }
 
   // Submit inputted creds and see if a list returns
-  const getList = () => {
+  const getList = async () => {
     // If password is not set, then we just want to view the list
     const url = (props.password.length) ? '/home/returnToEditList' : '/home/returnToViewList'
     // Post a UUID and Password to server
@@ -25,23 +26,20 @@ const ReturnList = (props) => {
       password: props.password
     }
     console.log(JSON.stringify(postData))
-    fetch(url, {
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(postData)
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('SUCCESS')
-        console.log(data)
-        if (data && props.setListData) { props.setListData(data) }
-      })
-      .catch((err) => {
-        console.log('ERR')
-        console.log(err)
-      })
+
+    const result = await response.json()
+    if (response.ok) {
+      if (props.setListData) { props.setListData(result) }
+    } else {
+      window.alert(result.message)
+    }
   }
 
   return (
@@ -52,6 +50,14 @@ const ReturnList = (props) => {
       <button onClick={getList}>Get My List!</button>
     </div>
   )
+}
+
+ReturnList.propTypes = {
+  uuid: PropTypes.string,
+  password: PropTypes.string,
+  setUUID: PropTypes.func,
+  setListData: PropTypes.func,
+  setPassword: PropTypes.func
 }
 
 export default ReturnList

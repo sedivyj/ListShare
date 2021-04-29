@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useCallback } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 
 /*
 TODO:
@@ -12,22 +13,20 @@ function NewList (props) {
       uuid: props.uuid,
       password: props.password
     }
-    console.log(JSON.stringify(postData))
-    fetch('/home/createList', {
+    const response = await fetch('/home/createList', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(postData)
     })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data)
-        props.setListData(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+
+    const result = await response.json()
+    if (response.ok) {
+      if (props.setListData) { props.setListData(result) }
+    } else {
+      window.alert(result.message)
+    }
   }
 
   const setPassword = (event) => {
@@ -47,6 +46,13 @@ function NewList (props) {
       <button className='btn btn-primary ml-2' onClick={postUUID}>Start List!</button>
     </div>
   )
+}
+
+NewList.propTypes = {
+  uuid: PropTypes.string,
+  password: PropTypes.string,
+  setListData: PropTypes.func,
+  setPassword: PropTypes.func
 }
 
 export default NewList

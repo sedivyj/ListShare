@@ -30,7 +30,9 @@ function ListItem (props) {
 
 ListItem.propTypes = {
   data: PropTypes.string,
-  listID: PropTypes.number
+  listID: PropTypes.number,
+  deleteListItem: PropTypes.func,
+  editListItem: PropTypes.func
 }
 
 export default ListItem

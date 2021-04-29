@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import PropTypes from 'prop-types'
+
 import HomeSelectors from './HomeSelectors.jsx'
 import NewList from './NewList.jsx'
 import ReturnList from './ReturnList.jsx'
@@ -80,6 +82,14 @@ const HomeView = (props) => {
     </div>
     </div>
   )
+}
+
+HomeView.propTypes = {
+  uuid: PropTypes.string,
+  password: PropTypes.string,
+  setUUID: PropTypes.func,
+  setListData: PropTypes.func,
+  setPassword: PropTypes.func
 }
 
 export default HomeView

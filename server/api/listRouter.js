@@ -90,7 +90,7 @@ router.delete('/deleteList', (req, res) => {
       return res.status(500).json({ message: 'Something went wrong'})
     })
   } else {
-    res.status(400).json({ message: 'Bad Body' })
+    return res.status(400).json({ message: 'Bad Body' })
   }
 })
 
