@@ -18,7 +18,7 @@ const ReturnList = (props) => {
   // Submit inputted creds and see if a list returns
   const getList = () => {
     // If password is not set, then we just want to view the list
-    const url = (props.password) ? '/home/returnToEditList' : '/home/returnToViewList'
+    const url = (props.password.length) ? '/home/returnToEditList' : '/home/returnToViewList'
     // Post a UUID and Password to server
     const postData = {
       uuid: props.uuid,
@@ -34,10 +34,12 @@ const ReturnList = (props) => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log('SUCCESS')
         console.log(data)
         if (data && props.setListData) { props.setListData(data) }
       })
       .catch((err) => {
+        console.log('ERR')
         console.log(err)
       })
   }

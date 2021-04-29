@@ -61,6 +61,8 @@ router.put('/createList', (req, res) => {
 
      const listData = []
      return res.status(200).json({listData: []})
+    } else {
+      res.status(400).json({ message: 'Invalid UUID' })
     }
   } else {
     const err = { message: 'Bad Body' }
@@ -74,30 +76,32 @@ router.post('/returnToViewList', async (req, res) => {
   if (body) {
     // Get values from body (password should be hashed)
     const uuid = body.uuid
-
-    const query = { 
-      uuid: uuid
-    }
-    // Determines what does/doesn't get returned from query
-    // We don't want to have the password returned to user
-    const projection = { password: 0 }
-    console.log(query)
-
-    try {
-      // Search Mongo for a document that matches the uuid and hashed password
-      // Get DB connection object
-      const db = getDb()
-      // Find One document that matches the uuid
-      const listDataResult = await db.collection('list-data').findOne(query, projection)
-      // Check if defined -> null if nothing found
-      if (listDataResult) {
-        console.log(listDataResult)
-        res.status(200).json(listDataResult)
-      } else {
-        return res.status(400).json({message: 'List with that uuid and/or password was not found!'})
+    
+    if(uuidValidate(uuid)) {
+      const query = { 
+        uuid: uuid
       }
-    } catch(err) {
-      return res.status(400).json({message: 'Unexpected error fetching list'})
+      // Determines what does/doesn't get returned from query
+      // We don't want to have the password returned to user
+      const project = { password: 0 }
+      console.log(query)
+
+      try {
+        // Search Mongo for a document that matches the uuid and hashed password
+        // Get DB connection object
+        const db = getDb()
+        // Find One document that matches the uuid
+        const listDataResult = await db.collection('list-data').findOne(query).projection(project)
+        // Check if defined -> null if nothing found
+        if (listDataResult) {
+          console.log(listDataResult)
+          res.status(200).json(listDataResult)
+        } else {
+          return res.status(400).json({message: 'List with that uuid and/or password was not found!'})
+        }
+      } catch(err) {
+        return res.status(400).json({message: 'Unexpected error fetching list'})
+      }
     }
   } else {
     return res.status(400).json({message: 'Bad body!'})
@@ -112,29 +116,31 @@ router.post('/returnToEditList', async (req, res) => {
   if (body) {
     // Get values from body (password should be hashed)
     const uuid = body.uuid
-    const hashPass = createHash('sha256').update(body.password).digest('hex')
+    if(uuidValidate(uuid)) {
+      const hashPass = createHash('sha256').update(body.password).digest('hex')
 
-    const query = { 
-      uuid: uuid,
-      password: hashPass
-    }
-    console.log(query)
-
-    try {
-      // Search Mongo for a document that matches the uuid and hashed password
-      // Get DB connection object
-      const db = getDb()
-      // Find One document that matches the uuid
-      const listDataResult = await db.collection('list-data').findOne(query)
-      // Check if defined -> null if nothing found
-      if (listDataResult) {
-        console.log(listDataResult)
-        return res.status(200).json(listDataResult)
-      } else {
-        return res.status(400).json({message: 'List with that uuid not found!'})
+      const query = { 
+        uuid: uuid,
+        password: hashPass
       }
-    } catch(err) {
-      return res.status(400).json({message: 'Unexpected error fetching list'})
+      console.log(query)
+
+      try {
+        // Search Mongo for a document that matches the uuid and hashed password
+        // Get DB connection object
+        const db = getDb()
+        // Find One document that matches the uuid
+        const listDataResult = await db.collection('list-data').findOne(query)
+        // Check if defined -> null if nothing found
+        if (listDataResult) {
+          console.log(listDataResult)
+          return res.status(200).json(listDataResult)
+        } else {
+          return res.status(400).json({message: 'List with that uuid not found!'})
+        }
+      } catch(err) {
+        return res.status(400).json({message: 'Unexpected error fetching list'})
+      }
     }
   } else {
     return res.status(400).json({message: 'Bad body!'})

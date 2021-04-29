@@ -4,6 +4,7 @@ import { initDb } from './db/db.js'
 
 // Imported Custom Routers
 import homeRouter from './api/homeRouter.js'
+import listRouter from './api/listRouter.js'
 
 const app = new Express()
 const port = 8080
@@ -19,6 +20,7 @@ app.use((req, res, next) => {
 
 // Custom Routers
 app.use('/home', homeRouter)
+app.use('/list', listRouter)
 
 // Serve static files from public folder
 app.use(Express.static('public'))

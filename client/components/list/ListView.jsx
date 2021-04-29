@@ -27,6 +27,23 @@ function ListView (props) {
 
   // Posts current state of list to server to be stored in DB
   const updateListToDB = () => {
+    const postData = {
+      uuid: props.listData.uuid,
+      password: props.password,
+      listItems: props.listData.listItems
+    }
+    fetch('/list/updateList', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(postData)
+    })
+      .then((response) => response.json())
+      .then((data) => { window.alert(data.message) })
+      .catch((error) => {
+        window.alert(error.message)
+      })
     console.log('UPDATED')
   }
 

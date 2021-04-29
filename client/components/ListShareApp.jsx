@@ -27,6 +27,7 @@ function ListShareApp () {
       {(listData &&
         <ListView
           uuid={uuid}
+          password={password}
           listData={listData}
           setListData={setListData}
         />
