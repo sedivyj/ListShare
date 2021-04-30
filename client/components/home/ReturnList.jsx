@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 const ReturnList = (props) => {
@@ -36,7 +36,10 @@ const ReturnList = (props) => {
 
     const result = await response.json()
     if (response.ok) {
-      if (props.setListData) { props.setListData(result) }
+      if (props.setListData) {
+        console.log(result)
+        props.setListData(result)
+      }
     } else {
       window.alert(result.message)
     }

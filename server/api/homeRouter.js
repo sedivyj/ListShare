@@ -58,8 +58,7 @@ router.put('/createList', (req, res) => {
       }
       console.log('item inserted')
      })
-
-     return res.status(200).json(newList)
+      return res.status(200).json(newList)
     } else {
       res.status(400).json({ message: 'Invalid UUID' })
     }
@@ -101,6 +100,8 @@ router.post('/returnToViewList', async (req, res) => {
       } catch(err) {
         return res.status(400).json({message: 'Unexpected error fetching list'})
       }
+    } else {
+      return res.status(400).json({message: 'Not a valid UUID'})
     }
   } else {
     return res.status(400).json({message: 'Bad body!'})
@@ -140,6 +141,8 @@ router.post('/returnToEditList', async (req, res) => {
       } catch(err) {
         return res.status(400).json({message: 'Unexpected error fetching list'})
       }
+    } else {
+      return res.status(400).json({message: 'Not a valid UUID'})
     }
   } else {
     return res.status(400).json({message: 'Bad body!'})

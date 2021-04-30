@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 const HomeSelectors = (props) => {
   return (
@@ -7,6 +8,11 @@ const HomeSelectors = (props) => {
       <button className='btn btn-primary ml-2' onClick={props.returnList}>Return to List</button>
     </div>
   )
+}
+
+HomeSelectors.propTypes = {
+  startingList: PropTypes.func,
+  returnList: PropTypes.func
 }
 
 export default HomeSelectors
