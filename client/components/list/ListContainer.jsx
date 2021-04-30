@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 
 import ListItem from './ListItem.jsx'
@@ -15,7 +15,7 @@ function ListContainer (props) {
 
   const deleteListItem = (listID) => {
     // Ask if user wants to delete this
-    const wantsDelete = window.confirm(`Are you sure you want to delete ${props.listItemData[listID]?.data }?`)
+    const wantsDelete = window.confirm(`Are you sure you want to delete ${props.listItemData[listID]?.data}?`)
 
     if (wantsDelete) {
       // Remove from DB and when successful update UI

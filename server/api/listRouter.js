@@ -6,32 +6,6 @@ import { getDb } from '../db/db.js'
 
 const router = new Express.Router()
 
-// Add another item to a list
-router.put('/addListItem', (req, res) => {
-  const body = req.body
-  if (body) {
-    res.status(200).json({ message: 'ITEM ADDED'})
-  } else {
-    res.status(400).json({ message: 'Bad Body' })
-  }
-})
-
-router.post('/updateName', async (res, req) => {
-  const body = req.body
-  if (body) {
-    // Handle getting data from body
-    try {
-      const db = getDb()
-
-    } catch (err) {
-
-    }
-    res.status(200).json({ message: 'ITEM ADDED'})
-  } else {
-    res.status(400).json({ message: 'Bad Body' })
-  }
-})
-
 // Update an item in a list
 router.post('/updateList', async (req, res) => {
 const body = req.body
@@ -39,6 +13,7 @@ const body = req.body
     // Handle getting data from body
     const uuid = body.uuid
     const hashPass = createHash('sha256').update(body.password).digest('hex')
+    const name = body.name
     const listItems = body.listItems
 
     const query = { 
@@ -47,6 +22,7 @@ const body = req.body
     }
     const update = {
       $set: {
+        name: name,
         listItems: listItems
       }
     }

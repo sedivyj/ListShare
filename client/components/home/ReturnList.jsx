@@ -25,7 +25,7 @@ const ReturnList = (props) => {
       uuid: props.uuid,
       password: props.password
     }
-    console.log(JSON.stringify(postData))
+
     const response = await fetch(url, {
       method: 'POST',
       headers: {

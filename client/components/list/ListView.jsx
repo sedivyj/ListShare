@@ -1,17 +1,31 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
 import ListContainer from './ListContainer.jsx'
 
 /**
  * View for viewing or editing a list
- * @param {*} props
- * @returns
  */
 function ListView (props) {
+  const [lastSaved, setLastSaved] = useState(null)
+
+  useEffect(() => {
+    // When first loading lets change it
+    if (lastSaved === null) {
+      setLastSaved('')
+    } else if (lastSaved === '') { // any changes after first load require changing this
+      const d = new Date()
+      const timeString = `Last Saved: ${d.toLocaleDateString('en-US')} ${d.toLocaleTimeString('en-US')}`
+      setLastSaved(timeString)
+    }
+  }, [props.listData])
+
   const updateListName = (event) => {
-    const newListName = event.target.value
-    console.log(newListName)
+    const newListName = event.target.value // Get new value
+
+    const listDataCopy = { ...props.listData } // Copy state
+    listDataCopy.name = newListName // Set new name on copy
+    props.setListData(listDataCopy) // Apply copy as new state
   }
 
   const updateListItems = (listItems) => {
@@ -30,6 +44,7 @@ function ListView (props) {
     const postData = {
       uuid: props.listData.uuid,
       password: props.password,
+      name: props.listData.name,
       listItems: props.listData.listItems
     }
     fetch('/list/updateList', {
@@ -40,7 +55,10 @@ function ListView (props) {
       body: JSON.stringify(postData)
     })
       .then((response) => response.json())
-      .then((data) => { window.alert(data.message) })
+      .then((data) => {
+        window.alert(data.message) // Inform user of success
+        setLastSaved('') // reset the lastSaved
+      })
       .catch((error) => {
         window.alert(error.message)
       })
@@ -57,6 +75,7 @@ function ListView (props) {
           uuid: props.listData.uuid,
           password: props.password
         }
+
         const response = await fetch('/list/deleteList', {
           method: 'DELETE',
           headers: {
@@ -69,7 +88,8 @@ function ListView (props) {
         if (response.ok) {
           if (props.setListData) {
             window.alert('Successfully deleted list')
-            props.setListData(null)
+            setLastSaved(null) // null for next list
+            props.setListData(null) // null since list is gone
           }
         } else {
           window.alert(result.message)
@@ -93,6 +113,7 @@ function ListView (props) {
           <div className='float-right'>
             <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
             <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
+            <p style={{ color: 'orangered' }}>{lastSaved}</p>
           </div>
         </div>
       </div>
