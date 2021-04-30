@@ -9,7 +9,7 @@ TODO:
 function NewList (props) {
   // Post a UUID and Password to server
   const postUUID = async () => {
-    if (props.password.length < 8) {
+    if (props.password.length >= 8) {
       const postData = {
         uuid: props.uuid,
         password: props.password
