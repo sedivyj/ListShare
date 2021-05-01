@@ -1,9 +1,8 @@
+// API TOOLS TO SIMPLIFY CALLS TO SERVER
 
 /**
  * Asynchronous function that fetches data (GET) from server endpoint
  * @param {string} endpoint API endpoint to call GET request
- * @param {function} cb_success callback function to call with a good response
- * @param {function} cb_error callback function to call with bad response
  */
 export function getAPI (endpoint) {
   return new Promise((resolve, reject) => {
@@ -19,6 +18,11 @@ export function getAPI (endpoint) {
   })
 }
 
+/**
+ * Asynchronous function that updates data (POST) to server endpoint
+ * @param {string} endpoint API endpoint to call POST request
+ * @param {object} data data to send to server for request
+ */
 export async function postAPI (endpoint, data) {
   return new Promise((resolve, reject) => {
     fetch(endpoint, {
@@ -34,6 +38,11 @@ export async function postAPI (endpoint, data) {
   })
 }
 
+/**
+ * Asynchronous function that inserts new data (PUT) to server endpoint
+ * @param {string} endpoint API endpoint to call PUT request
+ * @param {object} data data to send to server for request
+ */
 export async function putAPI (endpoint, data) {
   return new Promise((resolve, reject) => {
     fetch(endpoint, {
@@ -49,8 +58,12 @@ export async function putAPI (endpoint, data) {
   })
 }
 
-// TODO: Make sure this works
-export async function deleteAPI (endpoint, data, cbSuccess, cbErr) {
+/**
+ * Asynchronous function that deletes data (DELETE) at server endpoint
+ * @param {string} endpoint API endpoint to call DELETE request
+ * @param {object} data data to send to server for request
+ */
+export async function deleteAPI (endpoint, data) {
   return new Promise((resolve, reject) => {
     fetch(endpoint, {
       method: 'DELETE',

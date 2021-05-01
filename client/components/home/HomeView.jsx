@@ -31,7 +31,9 @@ const HomeView = (props) => {
 
   const fetchUUID = useCallback(async () => {
     getAPI('/home/getID')
-      .then((data) => props.setUUID(data.uuid))
+      .then((data) => {
+        if (props.setUUID) { props.setUUID(data.uuid) }
+      })
       .catch((err) => console.log(err))
   }, [])
 

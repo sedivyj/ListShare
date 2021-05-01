@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 
+import { postAPI, deleteAPI } from '../../utility/api-tools.js'
+
 function ListHeader (props) {
   const [lastSaved, setLastSaved] = useState(null)
 
@@ -31,21 +33,13 @@ function ListHeader (props) {
       name: props.listData.name,
       listItems: props.listData.listItems
     }
-    fetch('/list/updateList', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
-    })
-      .then((response) => response.json())
+
+    postAPI('/list/updateList', postData)
       .then((data) => {
         window.alert(data.message) // Inform user of success
         setLastSaved('') // reset the lastSaved
       })
-      .catch((error) => {
-        window.alert(error.message)
-      })
+      .catch((err) => window.alert(err.message))
     console.log('UPDATED')
   }
 
@@ -55,29 +49,18 @@ function ListHeader (props) {
     if (warnOne) {
       const warnLast = window.confirm('Are you REALLY sure you want to delete this list?\nYou cannot undo this!')
       if (warnLast) {
-        const postData = {
+        const deleteData = {
           uuid: props.listData.uuid,
           password: props.password
         }
 
-        const response = await fetch('/list/deleteList', {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(postData)
-        })
-
-        const result = await response.json()
-        if (response.ok) {
-          if (props.setListData) {
+        deleteAPI('/list/deleteList', deleteData)
+          .then((data) => {
             window.alert('Successfully deleted list')
             setLastSaved(null) // null for next list
             props.setListData(null) // null since list is gone
-          }
-        } else {
-          window.alert(result.message)
-        }
+          })
+          .catch((err) => window.alert(err.message))
       }
     }
   }
