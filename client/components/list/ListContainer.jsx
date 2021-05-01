@@ -37,11 +37,14 @@ function ListContainer (props) {
 
   return (
     <div className='col'>
-      <button className='btn btn-primary m-2' onClick={addListItem}>Add Item</button>
+      {!props.password.length ||
+        <button className='btn btn-primary m-2' onClick={addListItem}>Add Item</button>
+      }
       <ul className='list-group flex-fill'>
         {props.listItemData.map((listItem, index) => {
           return (<ListItem
             key={index} listID={index}
+            password={props.password}
             data={listItem.data}
             deleteListItem={deleteListItem}
             editListItem={editListItem}/>)
@@ -52,6 +55,7 @@ function ListContainer (props) {
 }
 
 ListContainer.propTypes = {
+  password: PropTypes.string,
   listItemData: PropTypes.array,
   updateListItems: PropTypes.func
 }

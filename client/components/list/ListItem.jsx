@@ -7,7 +7,7 @@ function ListItem (props) {
     if (props.deleteListItem) {
       props.deleteListItem(props.listID)
     }
-    console.log('DELETE')
+    console.log('DELETED')
   }
 
   const editItem = (event) => {
@@ -22,13 +22,17 @@ function ListItem (props) {
       <input type='text' className='list-input'
         value={props.data}
         onChange={editItem}
+        disabled={!props.password.length}
       />
-      <img className='float-right' src="./trash.svg" onClick={deleteItem}></img>
+      {!props.password.length ||
+        <img className='float-right' src="./trash.svg" onClick={deleteItem}></img>
+      }
     </li>
   )
 }
 
 ListItem.propTypes = {
+  password: PropTypes.string,
   data: PropTypes.string,
   listID: PropTypes.number,
   deleteListItem: PropTypes.func,

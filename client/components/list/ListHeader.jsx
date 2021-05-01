@@ -92,13 +92,15 @@ function ListHeader (props) {
         />
         <p>UUID: {props.listData.uuid}</p>
       </div>
-      <div className='col'>
-        <div className='float-right'>
-          <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
-          <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
-          <p style={{ color: 'orangered' }}>{lastSaved}</p>
+      {!props.password.length ||
+        <div className='col'>
+          <div className='float-right'>
+            <button className='btn btn-success mr-2' onClick={updateListToDB}>Save List</button>
+            <button className='btn btn-danger ml-2' onClick={deleteListFromDB}>Delete List</button>
+            <p style={{ color: 'orangered' }}>{lastSaved}</p>
+          </div>
         </div>
-      </div>
+      }
       </>
   )
 }

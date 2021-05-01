@@ -21,7 +21,7 @@ function ListView (props) {
 
   return (
     <div>
-      <h2>Edit List!</h2>
+      <h2>{(props.password.length) ? 'Edit List!' : 'Visit List'}</h2>
       <div className='row'>
         <ListHeader
           password={props.password}
@@ -31,6 +31,7 @@ function ListView (props) {
       </div>
       <div className='row'>
         <ListContainer
+          password={props.password}
           listItemData={props.listData.listItems}
           updateListItems={updateListItems}
           />
