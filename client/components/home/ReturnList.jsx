@@ -26,6 +26,7 @@ const ReturnList = (props) => {
       password: props.password
     }
 
+    console.log(url)
     const response = await fetch(url, {
       method: 'POST',
       headers: {
@@ -35,6 +36,7 @@ const ReturnList = (props) => {
     })
 
     const result = await response.json()
+    console.log(result)
     if (response.ok) {
       if (props.setListData) {
         console.log(result)
@@ -42,6 +44,8 @@ const ReturnList = (props) => {
       }
     } else {
       window.alert(result.message)
+      props.setPassword('')
+      props.setUUID('')
     }
   }
 
