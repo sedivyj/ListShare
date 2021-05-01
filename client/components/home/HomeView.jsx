@@ -5,6 +5,8 @@ import HomeSelectors from './HomeSelectors.jsx'
 import NewList from './NewList.jsx'
 import ReturnList from './ReturnList.jsx'
 
+import { getAPI } from '../../utility/api-tools.js'
+
 /**
  * View user first sees when coming to page
  * Gives option to create a list or return to a list
@@ -28,17 +30,9 @@ const HomeView = (props) => {
   }, [isReturning])
 
   const fetchUUID = useCallback(async () => {
-    fetch('/home/getID', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then((response) => response.json())
+    getAPI('/home/getID')
       .then((data) => props.setUUID(data.uuid))
-      .catch((err) => {
-        console.log(err)
-      })
+      .catch((err) => console.log(err))
   }, [])
 
   const startingList = () => {

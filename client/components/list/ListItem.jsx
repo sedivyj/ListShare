@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 
 function ListItem (props) {
   const deleteItem = (event) => {
-    console.log(props.listID)
     if (props.deleteListItem) {
       props.deleteListItem(props.listID)
     }

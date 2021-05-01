@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { putAPI } from '../../utility/api-tools.js'
+
 /*
 TODO:
   Issue with uuid and password not being posted correctly
@@ -14,20 +16,11 @@ function NewList (props) {
         uuid: props.uuid,
         password: props.password
       }
-      const response = await fetch('/home/createList', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(postData)
-      })
-
-      const result = await response.json()
-      if (response.ok) {
-        if (props.setListData) { props.setListData(result) }
-      } else {
-        window.alert(result.message)
-      }
+      putAPI('/home/createList', postData)
+        .then((data) => {
+          if (props.setListData) { props.setListData(data) }
+        })
+        .catch((err) => { window.alert(err.message) })
     } else {
       window.alert('You need a password at least 8 characters in length')
     }

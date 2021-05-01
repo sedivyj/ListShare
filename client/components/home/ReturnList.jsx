@@ -1,17 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { postAPI } from '../../utility/api-tools.js'
+
 const ReturnList = (props) => {
   const setUUID = (event) => {
     if (props.setUUID) {
-      // console.log(event.target.value)
       props.setUUID(event.target.value)
     }
   }
 
   const setPassword = (event) => {
     if (props.setPassword) {
-      // console.log(event.target.value)
       props.setPassword(event.target.value)
     }
   }
@@ -26,27 +26,18 @@ const ReturnList = (props) => {
       password: props.password
     }
 
-    console.log(url)
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(postData)
-    })
-
-    const result = await response.json()
-    console.log(result)
-    if (response.ok) {
-      if (props.setListData) {
-        console.log(result)
-        props.setListData(result)
-      }
-    } else {
-      window.alert(result.message)
-      props.setPassword('')
-      props.setUUID('')
-    }
+    postAPI(url, postData)
+      .then((data) => {
+        if (props.setListData) {
+          console.log(data)
+          props.setListData(data)
+        }
+      })
+      .catch((err) => {
+        window.alert(err.message)
+        props.setPassword('')
+        props.setUUID('')
+      })
   }
 
   return (
