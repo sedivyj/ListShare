@@ -90,7 +90,7 @@ function ListHeader (props) {
           value={props.listData.name}
           onChange={updateListName}
         />
-        <p>UUID: {props.listData.uuid}</p>
+        <p><strong>UUID:</strong> {props.listData.uuid}</p>
       </div>
       {!props.password.length ||
         <div className='col'>
