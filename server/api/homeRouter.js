@@ -3,7 +3,7 @@ import Express from 'express'
 import assert from 'assert'
 import { createHash } from 'crypto'
 import { v4 as uuidv4, validate as uuidValidate } from 'uuid'
-import { getDb } from '../db/db.js'
+import MONGO_DB_HOME from '../db/controller/homeController.js'
 
 const router = new Express.Router()
 
@@ -29,27 +29,17 @@ router.put('/createList', (req, res) => {
     if(uuidValidate(uuid)) {
       const hashPass = createHash('sha256').update(password).digest('hex')
 
-     const newList = {
-       uuid: uuid,
-       password: hashPass,
-       name: 'Click me to change the list name!',
-       listItems: []
-     }
+      // Insert new list with uuid and hashed password
+      MONGO_DB_HOME.createList(uuid, hashPass)
+      .then((result) => {
+        return res.status(200).json(result)
+      })
+      .catch((err) => {
+        return res.status(500).json(err)
+      })
 
-     // Get DB connection object
-     const db = getDb()
-     // Insert one cred
-     db.collection('list-data').insertOne(newList, (err, result) => {
-      if(err) {
-        const error = {message: 'Something went wrong while inserting'}
-        res.status(500).json(error)
-      }
-      console.log('New list inserted')
-     })
-     newList.password = '' // User has password locally, don't need to send it back
-      return res.status(200).json(newList)
     } else {
-      res.status(400).json({ message: 'Invalid UUID' })
+      return res.status(400).json({ message: 'Invalid UUID' })
     }
   } else {
     const err = { message: 'Bad Body' }
@@ -61,37 +51,20 @@ router.put('/createList', (req, res) => {
 router.post('/returnToViewList', async (req, res) => {
   const body = req.body
   if (body) {
-    // Get values from body (password should be hashed)
+    // Get values from body
     const uuid = body.uuid
     
+    // Make sure uuid is a valid one
     if(uuidValidate(uuid)) {
-      const query = { 
-        uuid: uuid
-      }
-      // Determines what does/doesn't get returned from query
-      // We don't want to have the _id and password returned to user
-      const project = { 
-        projection: { _id: 0, password: 0 } 
-      }
-
-      try {
-        // Search Mongo for a document that matches the uuid and hashed password
-        // Get DB connection object
-        const db = getDb()
-        // Find One document that matches the uuid
-        const listDataResult = await db.collection('list-data').findOne(query, project)
-        // Check if defined -> null if nothing found
-        console.log(listDataResult)
-        if (listDataResult) {
-          console.log(listDataResult)
-          res.status(200).json(listDataResult)
-        } else {
-          return res.status(400).json({message: 'List with that uuid was not found!'})
-        }
-      } catch(err) {
-        console.log(err)
-        return res.status(400).json({message: 'Unexpected error fetching list'})
-      }
+      MONGO_DB_HOME.getViewList(query)
+      .then((result) => {
+        return res.status(200).json(result)
+      })
+      .catch((err) => {
+        // Check for an internal error
+        if (err.internalErr) { return res.status(500).json(err) }
+        return res.status(400).json(err)
+      })
     } else {
       return res.status(400).json({message: 'Not a valid UUID'})
     }
@@ -109,33 +82,16 @@ router.post('/returnToEditList', async (req, res) => {
     if(uuidValidate(uuid)) {
       const hashPass = createHash('sha256').update(body.password).digest('hex')
 
-      const query = { 
-        uuid: uuid,
-        password: hashPass
-      }
+      MONGO_DB_HOME.getEditList(uuid, hashPass)
+      .then((result) => {
+        return res.status(200).json(result)
+      })
+      .catch((err) => {
+        // Check for an internal error
+        if (err.internalErr) { return res.status(500).json(err) }
+        return res.status(400).json(err)
+      })
 
-      // Determines what does/doesn't get returned from query
-      // We don't want to have the _id and password returned to user
-      const project = { 
-        projection: { _id: 0, password: 0 } 
-      }
-
-      try {
-        // Search Mongo for a document that matches the uuid and hashed password
-        // Get DB connection object
-        const db = getDb()
-        // Find One document that matches the uuid
-        const listDataResult = await db.collection('list-data').findOne(query, project)
-        // Check if defined -> null if nothing found
-        if (listDataResult) {
-          console.log(listDataResult)
-          return res.status(200).json(listDataResult)
-        } else {
-          return res.status(400).json({message: 'List with that uuid not found!'})
-        }
-      } catch(err) {
-        return res.status(400).json({message: 'Unexpected error fetching list'})
-      }
     } else {
       return res.status(400).json({message: 'Not a valid UUID'})
     }

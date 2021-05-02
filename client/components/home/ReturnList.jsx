@@ -35,6 +35,7 @@ const ReturnList = (props) => {
       })
       .catch((err) => {
         window.alert(err.message)
+        // Clear inputs
         props.setPassword('')
         props.setUUID('')
       })
