@@ -22,17 +22,18 @@ router.put('/createList', (req, res) => {
   const body = req.body
   if (body) {
     const uuid = body.uuid
-    const password = body.password
-
+    // Validate uuid
+    
     if(uuidValidate(uuid)) {
-      const hashPass = createHash('sha256').update(password).digest('hex')
+      const hashPass = createHash('sha256').update(body.password).digest('hex')
 
       // Insert new list with uuid and hashed password
       MONGO_DB_HOME.createList(uuid, hashPass)
       .then((result) => { return res.status(200).json(result) })
       .catch((err) => { return res.status(500).json(err) })
     } else {
-      return res.status(400).json({ message: 'Invalid UUID' })
+      const err = { message: 'Invalid UUID' }
+      return res.status(400).json(err)
     }
   } else {
     const err = { message: 'Bad Body' }
@@ -47,7 +48,7 @@ router.post('/returnToViewList', async (req, res) => {
     // Get values from body
     const uuid = body.uuid
     
-    // Make sure uuid is valid
+    // Validate uuid
     if(uuidValidate(uuid)) {
       MONGO_DB_HOME.getViewList(uuid)
       .then((result) => { return res.status(200).json(result) })
@@ -57,10 +58,12 @@ router.post('/returnToViewList', async (req, res) => {
         return res.status(400).json(err)
       })
     } else {
-      return res.status(400).json({message: 'Not a valid UUID'})
+      const err = { message: 'Invalid UUID' }
+      return res.status(400).json(err)
     }
   } else {
-    return res.status(400).json({message: 'Bad body!'})
+    const err = { message: 'Bad Body' }
+    return res.status(400).json(err)
   }
 })
 
@@ -82,10 +85,12 @@ router.post('/returnToEditList', async (req, res) => {
         return res.status(400).json(err)
       })
     } else {
-      return res.status(400).json({message: 'Not a valid UUID'})
+      const err = { message: 'Invalid UUID' }
+      return res.status(400).json(err)
     }
   } else {
-    return res.status(400).json({message: 'Bad body!'})
+    const err = { message: 'Bad Body' }
+    return res.status(400).json(err)
   }
 })
 

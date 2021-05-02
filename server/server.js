@@ -25,6 +25,7 @@ app.use('/list', listRouter)
 // Serve static files from public folder
 app.use(Express.static('public'))
 
+// Initialize DB and start server in the callback
 initDb((err) => {
   // Starting Server
   app.listen(port, (err1)=> {

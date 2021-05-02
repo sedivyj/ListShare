@@ -34,7 +34,7 @@ function createList (uuid, hashPass) {
 
 /**
  * DB function that inserts a new list into collection
- * @param {object} newList new List to create for the user
+ * @param {string} uuid unique identifier of a list
  * @returns result of promise
  */
 function getViewList (uuid) {
@@ -80,7 +80,8 @@ function getViewList (uuid) {
 
 /**
  * DB function that finds document that matches uuid and hashed password
- * @param {object} newList new List to create for the user
+ * @param {string} uuid unique identifier of a list
+ * @param {string} hashPass hashed password that user inputted
  * @returns result of promise
  */
 function getEditList (uuid, hashPass) {
