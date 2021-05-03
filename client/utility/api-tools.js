@@ -12,7 +12,7 @@ export function getAPI (endpoint) {
         'Content-Type': 'application/json'
       }
     })
-      .then((response) => response.json())
+      .then(handleErrors)
       .then((data) => resolve(data))
       .catch((err) => reject(err))
   })
@@ -82,6 +82,9 @@ export async function deleteAPI (endpoint, data) {
 // Handles what to return to user based on response status code
 const handleErrors = async (response) => {
   const result = await response.json()
-  if (!response.ok) throw Error(result.message)
+  if (!response.ok) {
+    const errMessage = (result.message) ? result.message : response.statusText
+    throw Error(errMessage)
+  }
   return result
 }
