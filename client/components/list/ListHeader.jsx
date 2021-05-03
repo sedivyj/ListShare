@@ -3,9 +3,12 @@ import PropTypes from 'prop-types'
 
 import { postAPI, deleteAPI } from '../../utility/api-tools.js'
 
+// Header of List View. Displays relevant data about list
+// and has options for saving/deleting list
 function ListHeader (props) {
   const [lastSaved, setLastSaved] = useState(null)
 
+  // Effect for last saved when listData changes
   useEffect(() => {
     // When first loading lets change it
     if (lastSaved === null) {

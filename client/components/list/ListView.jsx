@@ -21,7 +21,7 @@ function ListView (props) {
 
   return (
     <div>
-      <h2>{(props.password.length) ? 'Edit List!' : 'Visit List'}</h2>
+      <h2>{(props.password.length) ? 'Edit List' : 'Visit List'}</h2>
       <div className='row'>
         <ListHeader
           password={props.password}

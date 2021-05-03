@@ -3,11 +3,7 @@ import PropTypes from 'prop-types'
 
 import { putAPI } from '../../utility/api-tools.js'
 
-/*
-TODO:
-  Issue with uuid and password not being posted correctly
-  Fix onChange for text input for password
-*/
+// Component that displays option to create a list
 function NewList (props) {
   // Post a UUID and Password to server
   const postUUID = async () => {
@@ -16,6 +12,7 @@ function NewList (props) {
         uuid: props.uuid,
         password: props.password
       }
+
       putAPI('/home/createList', postData)
         .then((data) => {
           if (props.setListData) { props.setListData(data) }

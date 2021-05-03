@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+// Component that displays options for user to select
 const HomeSelectors = (props) => {
   return (
     <div>

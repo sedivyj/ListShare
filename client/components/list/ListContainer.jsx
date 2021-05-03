@@ -9,7 +9,7 @@ function ListContainer (props) {
     console.log('ADDED ITEM')
     const newItem = { data: 'New Item' }
 
-    // Add to DB and when successful update UI
+    // Set state with elements of current state and append new item
     props.updateListItems([...props.listItemData, newItem])
   }
 
@@ -18,20 +18,19 @@ function ListContainer (props) {
     const wantsDelete = window.confirm(`Are you sure you want to delete ${props.listItemData[listID]?.data}?`)
 
     if (wantsDelete) {
-      // Remove from DB and when successful update UI
-      const listDataCopy = [...props.listItemData]
-      listDataCopy.splice(listID, 1)
+      const listDataCopy = [...props.listItemData] // Copy current state
+      listDataCopy.splice(listID, 1) // slice out selected item
 
+      // Set state with updated copy
       props.updateListItems(listDataCopy)
     }
   }
 
   const editListItem = (listID, val) => {
-    // Copy list
-    const listDataCopy = [...props.listItemData]
-    // Update the value
-    listDataCopy[listID] = val
+    const listDataCopy = [...props.listItemData] // Copy list
+    listDataCopy[listID] = val // Update the value at index
 
+    // Set state with updated copy
     props.updateListItems([...listDataCopy])
   }
 

@@ -7,11 +7,6 @@ function ListShareApp () {
   const [uuid, setUUID] = useState('')
   const [password, setPassword] = useState('')
   const [listData, setListData] = useState(null)
-  const [isSaved, setIsSaved] = useState(false)
-
-  // useEffect(() => {
-
-  // }, [])
 
   return (
     <div className='container'>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import { postAPI } from '../../utility/api-tools.js'
 
+// Component that displays option to visit a list
 const ReturnList = (props) => {
   const setUUID = (event) => {
     if (props.setUUID) {
@@ -47,6 +48,7 @@ const ReturnList = (props) => {
       <input value={props.uuid} onChange={setUUID} type='text' placeholder='Unique ID'/>
       <input className='ml-2' value={props.password} onChange={setPassword} type='text' placeholder='Password'/>
       <button className='btn btn-success ml-2' onClick={getList}>Get My List!</button>
+      <p>Password is optional to edit a list</p>
     </div>
   )
 }

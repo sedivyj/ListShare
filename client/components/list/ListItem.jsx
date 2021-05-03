@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+// Component that displays a single list item's data
+// Provides opportunity to edit data
 function ListItem (props) {
+  // Deletes this item from state
   const deleteItem = (event) => {
     if (props.deleteListItem) {
       props.deleteListItem(props.listID)
@@ -9,6 +12,7 @@ function ListItem (props) {
     console.log('DELETED')
   }
 
+  // Edit data in this item
   const editItem = (event) => {
     event.preventDefault()
     const updatedListItem = { data: event.target.value }

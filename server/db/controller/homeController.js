@@ -33,7 +33,7 @@ function createList (uuid, hashPass) {
 }
 
 /**
- * DB function that inserts a new list into collection
+ * DB function that finds document that matches uuid
  * @param {string} uuid unique identifier of a list
  * @returns result of promise
  */

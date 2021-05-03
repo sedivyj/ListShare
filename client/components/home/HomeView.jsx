@@ -7,11 +7,8 @@ import ReturnList from './ReturnList.jsx'
 
 import { getAPI } from '../../utility/api-tools.js'
 
-/**
- * View user first sees when coming to page
- * Gives option to create a list or return to a list
- * @returns React HomeView
- */
+// Component that displays the view a user first sees
+// when loading the page.  Allows user to create or visit a page
 const HomeView = (props) => {
   const [isStarting, setIsStarting] = useState(false)
   const [isReturning, setIsReturning] = useState(false)
