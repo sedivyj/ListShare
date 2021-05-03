@@ -24,7 +24,7 @@ const body = req.body
         .then((result) => { return res.status(200).json(result) })
         .catch((err) => {
           // Check for an internal error
-          if (err.internalErr) { return res.status(500).json(err) }
+          if (err.internalError) { return res.status(500).json(err) }
           return res.status(400).json(err)
         })
     } else {
@@ -53,7 +53,7 @@ router.delete('/deleteList', (req, res) => {
         .then((result) => { return res.status(200).json(result) })
         .catch((err) => {
           // Check for an internal error
-          if (err.internalErr) { return res.status(500).json(err) }
+          if (err.internalError) { return res.status(500).json(err) }
           return res.status(400).json(err)
         })
     } else {
