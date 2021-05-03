@@ -26,7 +26,7 @@ async function initDb (callback) {
 
   // Create client and establish a connection to DB server
   const client = new MongoClient(uri)
-  await client.connect((err) => {
+  client.connect((err) => {
     assert.strictEqual(null, err)
     console.log('Connected successfully to server!')
 
