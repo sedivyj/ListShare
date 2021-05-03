@@ -22,8 +22,8 @@ router.put('/createList', (req, res) => {
   const body = req.body
   if (body) {
     const uuid = body.uuid
-    // Validate uuid
     
+    // Validate uuid 
     if(uuidValidate(uuid)) {
       const hashPass = createHash('sha256').update(body.password).digest('hex')
 
@@ -51,12 +51,12 @@ router.post('/returnToViewList', async (req, res) => {
     // Validate uuid
     if(uuidValidate(uuid)) {
       MONGO_DB_HOME.getViewList(uuid)
-      .then((result) => { return res.status(200).json(result) })
-      .catch((err) => {
-        // Check for an internal error
-        if (err.internalErr) { return res.status(500).json(err) }
-        return res.status(400).json(err)
-      })
+        .then((result) => { return res.status(200).json(result) })
+        .catch((err) => {
+          // Check for an internal error
+          if (err.internalErr) { return res.status(500).json(err) }
+          return res.status(400).json(err)
+        })
     } else {
       const err = { message: 'Invalid UUID' }
       return res.status(400).json(err)
@@ -78,12 +78,12 @@ router.post('/returnToEditList', async (req, res) => {
       const hashPass = createHash('sha256').update(body.password).digest('hex')
 
       MONGO_DB_HOME.getEditList(uuid, hashPass)
-      .then((result) => { return res.status(200).json(result) })
-      .catch((err) => {
-        // Check for an internal error
-        if (err.internalErr) { return res.status(500).json(err) }
-        return res.status(400).json(err)
-      })
+        .then((result) => { return res.status(200).json(result) })
+        .catch((err) => {
+          // Check for an internal error
+          if (err.internalErr) { return res.status(500).json(err) }
+          return res.status(400).json(err)
+        })
     } else {
       const err = { message: 'Invalid UUID' }
       return res.status(400).json(err)
